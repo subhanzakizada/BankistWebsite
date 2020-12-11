@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const section1 = document.getElementById('section--1')
+const btnLearnMore = document.querySelector('.btn--scroll-to')
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -18,8 +20,10 @@ const closeModal = function () {
   overlay.classList.add('hidden');
 };
 
-for (let i = 0; i < btnsOpenModal.length; i++)
-  btnsOpenModal[i].addEventListener('click', openModal);
+// using loop because there is 2 of "open account" button
+btnsOpenModal.forEach(i => i.addEventListener('click', function(e) {
+    openModal()    
+}))
 
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
@@ -29,3 +33,8 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+// scrolling smoothly when click on, "Learn more ↓"
+btnLearnMore.addEventListener('click', () => {
+    section1.scrollIntoView({behavior: 'smooth'})
+})
