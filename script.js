@@ -38,3 +38,14 @@ document.addEventListener('keydown', function (e) {
 btnLearnMore.addEventListener('click', () => {
     section1.scrollIntoView({behavior: 'smooth'})
 })
+
+// smooth scroll when clicking on, "Features" , "Operations" , "Testimonials"
+document.querySelector('.nav__links').addEventListener('click', function(e) {
+    e.preventDefault()
+    if(e.target.classList.contains('nav__link')) {
+        // section we want to scroll to
+        const section = e.target.getAttribute('href')
+        // scrolling logic
+        document.querySelector(section).scrollIntoView({behavior: 'smooth'})
+    }
+})
