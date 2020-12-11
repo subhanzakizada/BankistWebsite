@@ -39,7 +39,7 @@ btnLearnMore.addEventListener('click', () => {
     section1.scrollIntoView({behavior: 'smooth'})
 })
 
-// smooth scroll when clicking on, "Features" , "Operations" , "Testimonials"
+// smooth scroll when clicking on, "Features" , "Operations" and "Testimonials"
 document.querySelector('.nav__links').addEventListener('click', function(e) {
     e.preventDefault()
     if(e.target.classList.contains('nav__link')) {
@@ -48,4 +48,22 @@ document.querySelector('.nav__links').addEventListener('click', function(e) {
         // scrolling logic
         document.querySelector(section).scrollIntoView({behavior: 'smooth'})
     }
+})
+
+const tabs = document.querySelectorAll('.operations__tab')  // nodes, "instant transfers" , "instant loans" and "instant closing" buttons
+const tabsContainer = document.querySelector('.operations__tab-container')
+const operationsContent = document.querySelectorAll('.operations__content')
+
+// adding functionality to tabs
+tabsContainer.addEventListener('click', function(e) {
+    const clicked = e.target.closest('.operations__tab')
+    if(!clicked) return
+    // updating the active class for tabs
+    tabs.forEach(tab => tab.classList.remove('operations__tab--active'))
+    clicked.classList.add('operations__tab--active')
+    console.log(operationsContent[0])
+ 
+    // updating the operation text content
+    operationsContent.forEach(operation => operation.classList.remove('operations__content--active'))
+    document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
 })
