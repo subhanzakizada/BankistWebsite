@@ -9,6 +9,10 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const section1 = document.getElementById('section--1')
 const btnLearnMore = document.querySelector('.btn--scroll-to')
+const tabs = document.querySelectorAll('.operations__tab')  // nodes, "instant transfers" , "instant loans" and "instant closing" buttons
+const tabsContainer = document.querySelector('.operations__tab-container')
+const operationsContent = document.querySelectorAll('.operations__content')
+const nav = document.querySelector('.nav')
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -50,10 +54,6 @@ document.querySelector('.nav__links').addEventListener('click', function(e) {
     }
 })
 
-const tabs = document.querySelectorAll('.operations__tab')  // nodes, "instant transfers" , "instant loans" and "instant closing" buttons
-const tabsContainer = document.querySelector('.operations__tab-container')
-const operationsContent = document.querySelectorAll('.operations__content')
-
 // adding functionality to tabs
 tabsContainer.addEventListener('click', function(e) {
     const clicked = e.target.closest('.operations__tab')
@@ -61,9 +61,22 @@ tabsContainer.addEventListener('click', function(e) {
     // updating the active class for tabs
     tabs.forEach(tab => tab.classList.remove('operations__tab--active'))
     clicked.classList.add('operations__tab--active')
-    console.log(operationsContent[0])
  
     // updating the operation text content
     operationsContent.forEach(operation => operation.classList.remove('operations__content--active'))
     document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
 })
+
+// adding hover mouse functionality
+const handlerHover = function(e) {
+    if(e.target.classList.contains('nav__link')){
+        const link = e.target
+        const siblings = link.closest('.nav').querySelectorAll('.nav__link')
+        const logo = nav.querySelector('img')
+        siblings.forEach(sibling => sibling !== link ? sibling.style.opacity = this : undefined)
+        logo.style.opacity = this
+    } 
+}
+
+nav.addEventListener('mouseover', handlerHover.bind(0.5))
+nav.addEventListener('mouseout', handlerHover.bind(1))
