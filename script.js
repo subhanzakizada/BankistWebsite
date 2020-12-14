@@ -14,6 +14,7 @@ const tabsContainer = document.querySelector('.operations__tab-container')
 const operationsContent = document.querySelectorAll('.operations__content')
 const nav = document.querySelector('.nav')
 const header = document.querySelector('.header')
+const allSections = document.querySelectorAll('.section')
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -82,7 +83,7 @@ const handlerHover = function(e) {
 nav.addEventListener('mouseover', handlerHover.bind(0.5))
 nav.addEventListener('mouseout', handlerHover.bind(1))
 
-// adding a sticky navigation
+// Adding a Sticky Navigation Bar 
 // navigation height to use for exact moment to show the navigation bar
 const navHeight = nav.getBoundingClientRect().height
 
@@ -94,12 +95,35 @@ const observerCB = entries => {
 }
 
 // options to use in observer
-const observerOptions = {
+const observerHeaderOptions = {
     root: null,
     threshold: 0,
     rootMargin: `${navHeight}px`
 }
 
-// observer
-const observerHeader = new IntersectionObserver(observerCB, observerOptions)
+// header observer
+const observerHeader = new IntersectionObserver(observerCB, observerHeaderOptions)
 observerHeader.observe(header)
+
+// Revealing the Section Info when scrolling
+// call back for observer
+const sectionObserverCB = (entries, observer) => {
+    const entry = entries[0]
+    if(!entry.isIntersecting) return
+    entry.target.classList.remove('section--hidden')
+    observer.unobserve(entry.target)
+}
+
+// options
+const observerSectionsOptions = {
+    root: null,
+    threshold: 0.15
+}
+
+// observer
+const sectionObserver = new IntersectionObserver(sectionObserverCB, observerSectionsOptions)
+
+allSections.forEach(section => {
+    sectionObserver.observe(section)
+    section.classList.add('section--hidden')
+    })
