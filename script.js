@@ -13,6 +13,7 @@ const tabs = document.querySelectorAll('.operations__tab')  // nodes, "instant t
 const tabsContainer = document.querySelector('.operations__tab-container')
 const operationsContent = document.querySelectorAll('.operations__content')
 const nav = document.querySelector('.nav')
+const header = document.querySelector('.header')
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -80,3 +81,25 @@ const handlerHover = function(e) {
 
 nav.addEventListener('mouseover', handlerHover.bind(0.5))
 nav.addEventListener('mouseout', handlerHover.bind(1))
+
+// adding a sticky navigation
+// navigation height to use for exact moment to show the navigation bar
+const navHeight = nav.getBoundingClientRect().height
+
+// call back for the observer
+const observerCB = entries => {
+    const entry = entries[0] // we need [0] because "isIntersecting" is in it
+    if(entry.isIntersecting) nav.classList.remove('sticky')
+    else nav.classList.add('sticky')
+}
+
+// options to use in observer
+const observerOptions = {
+    root: null,
+    threshold: 0,
+    rootMargin: `${navHeight}px`
+}
+
+// observer
+const observerHeader = new IntersectionObserver(observerCB, observerOptions)
+observerHeader.observe(header)
