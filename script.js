@@ -109,7 +109,7 @@ observerHeader.observe(header)
 // call back for observer
 const sectionObserverCB = (entries, observer) => {
     const entry = entries[0]
-    if(!entry.isIntersecting) return
+    if(!entry.isIntersecting) /* with viewport */ return
     entry.target.classList.remove('section--hidden')
     observer.unobserve(entry.target)
 }
@@ -127,3 +127,18 @@ allSections.forEach(section => {
     sectionObserver.observe(section)
     section.classList.add('section--hidden')
     })
+
+// Implementing Lazy Loading Images
+const targetImages = document.querySelectorAll('img[data-src]')
+
+const imgObserverCB = (entries, observer) => {
+    const entry = entries[0]
+    if(!entry.isIntersecting) return
+    entry.target.src = entry.target.dataset.src
+    entry.target.addEventListener('load', () => entry.target.classList.remove('lazy-img')) 
+    observer.unobserve(entry.target)
+}
+const imgObserver = new IntersectionObserver(imgObserverCB, {root: null,
+                                                             threshold: 0,
+                                                             rootMargin: '250px'})
+targetImages.forEach(img => imgObserver.observe(img))
